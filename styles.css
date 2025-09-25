@@ -748,6 +748,8 @@ body {
 }
 
 .social-item {
+  width: 8rem;
+  height: 8rem;
   text-align: center;
 }
 
@@ -806,8 +808,8 @@ body {
 }
 
 /* Social Media Brand Colors on Hover */
-.social-link[href*="linkedin"]:hover {
-  color: #0077b5;
+.social-link[href*="facebook"]:hover {
+  color: #1877f2;
 }
 
 .social-link[href*="twitter"]:hover {
@@ -818,8 +820,8 @@ body {
   color: #e4405f;
 }
 
-.social-link[href*="github"]:hover {
-  color: #333;
+.social-link[href*="tiktok"]:hover {
+  color: #000;
 }
 
 /* Services Section */
@@ -1894,15 +1896,37 @@ body {
   }
 
   .social-container {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0 !important;
+  }
+
+  .social-item {
+    width: 6rem;
+    height: 6rem;
+    text-align: center;
+  }
+
+  .social-item a {
+    width: 100%;
+    height: 100%;
+  }
+
+  .social-item a .social-label {
+    display: none;
   }
 
   .services-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
   }
 
   .service-card {
+    width: 22rem;
     padding: var(--spacing-sm);
   }
 
