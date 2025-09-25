@@ -1648,6 +1648,7 @@ body {
   padding: var(--spacing-md) var(--spacing-xl);
   border-radius: var(--radius-lg);
   min-width: 160px;
+  display: inline-block;
 }
 
 .form-note {
@@ -1934,6 +1935,11 @@ body {
     padding: var(--spacing-sm);
   }
 
+  .btn-submit {
+    display: block;
+    width: 100%;
+  }
+
   .form-field input,
   .form-field textarea {
     font-size: 0.85rem;
@@ -2034,6 +2040,10 @@ body {
 
   .btn-apply {
     display: none;
+  }
+
+  .btn-submit {
+    display: block;
   }
 
   /* Hero Mobile Optimizations */

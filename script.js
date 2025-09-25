@@ -17,15 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
 // Smooth scrolling for navigation links
 function initSmoothScrolling() {
   const navLinks = document.querySelectorAll(
-    ".nav-link, .learn-more-link, .btn-apply"
+    "a.nav-link, a.learn-more-link, a.btn-apply"
   );
 
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
-      e.preventDefault();
       const targetId = this.getAttribute("href");
-
-      if (targetId.startsWith("#")) {
+      if (targetId && targetId.startsWith("#")) {
+        e.preventDefault();
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
           const headerHeight = document.querySelector(".header").offsetHeight;
@@ -600,7 +599,6 @@ function initHeroAnimations() {
 // Contact form validation and interactions
 function initContactForm() {
   const form = document.querySelector(".contact-form");
-  const submitBtn = form.querySelector(".btn-submit");
   const statusEl = form.querySelector(".form-status");
 
   // Validation rules
@@ -710,239 +708,12 @@ function initContactForm() {
   });
 
   // Form submission
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
+  form.addEventListener("submit", (e) => {
     if (!validateForm()) {
+      e.preventDefault();
       statusEl.className = "form-status error";
       statusEl.textContent = "Please fix the errors above";
       statusEl.style.opacity = "1";
-      return;
-    }
-
-    // Show loading state
-    submitBtn.textContent = "Sending...";
-    submitBtn.disabled = true;
-
-    try {
-      const formData = new FormData(form);
-      const name = formData.get("name") || "";
-      const email = formData.get("email") || "";
-      const phone = formData.get("phone") || "";
-      const subject = formData.get("subject") || "Contact Form Submission";
-      const message = formData.get("message") || "";
-
-      const mailSubject = encodeURIComponent(`${subject} - ${name}`);
-      const mailBody = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`
-      );
-      const mailto = `mailto:info@curves.agency?subject=${mailSubject}&body=${mailBody}`;
-
-      window.location.href = mailto;
-
-      statusEl.className = "form-status success";
-      statusEl.textContent = "Opening your email client to send the message...";
-      statusEl.style.opacity = "1";
-
-      form.reset();
-      Object.keys(validators).forEach((fieldName) =>
-        clearFieldError(fieldName)
-      );
-    } catch (error) {
-      // Error state
-      statusEl.className = "form-status error";
-      statusEl.textContent = "Failed to send message. Please try again.";
-      statusEl.style.opacity = "1";
-    } finally {
-      // Reset button
-      submitBtn.textContent = "Send message";
-      submitBtn.disabled = false;
-
-      // Hide status after 5 seconds
-      setTimeout(() => {
-        statusEl.style.opacity = "0";
-      }, 5000);
-    }
-  });
-
-  // Option card interactions
-  const optionCards = document.querySelectorAll(".option-card");
-  optionCards.forEach((card) => {
-    card.addEventListener("click", () => {
-      // Add click animation
-      card.style.transform = "translateY(-2px) scale(0.98)";
-      setTimeout(() => {
-        card.style.transform = "";
-      }, 150);
-    });
-  });
-}
-
-// Contact form validation and interactions
-function initContactForm() {
-  const form = document.querySelector(".contact-form");
-  const submitBtn = form.querySelector(".btn-submit");
-  const statusEl = form.querySelector(".form-status");
-
-  // Validation rules
-  const validators = {
-    name: (value) => {
-      if (!value.trim()) return "Name is required";
-      if (value.trim().length < 2) return "Name must be at least 2 characters";
-      return null;
-    },
-    email: (value) => {
-      if (!value.trim()) return "Email is required";
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) return "Please enter a valid email address";
-      return null;
-    },
-    phone: (value) => {
-      if (!value.trim()) return null; // Optional field
-      const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-      if (!phoneRegex.test(value.replace(/[\s\-\(\)]/g, "")))
-        return "Please enter a valid phone number";
-      return null;
-    },
-    subject: (value) => {
-      if (!value.trim()) return "Subject is required";
-      if (value.trim().length < 3)
-        return "Subject must be at least 3 characters";
-      return null;
-    },
-    message: (value) => {
-      if (!value.trim()) return "Message is required";
-      if (value.trim().length < 10)
-        return "Message must be at least 10 characters";
-      return null;
-    },
-  };
-
-  // Show field error
-  function showFieldError(fieldName, message) {
-    const field = form.querySelector(`[name="${fieldName}"]`);
-    const errorEl = form.querySelector(`[data-for="${fieldName}"]`);
-
-    if (field && errorEl) {
-      field.style.borderColor = "rgba(239, 68, 68, 0.5)";
-      errorEl.textContent = message;
-      errorEl.classList.add("show");
-    }
-  }
-
-  // Clear field error
-  function clearFieldError(fieldName) {
-    const field = form.querySelector(`[name="${fieldName}"]`);
-    const errorEl = form.querySelector(`[data-for="${fieldName}"]`);
-
-    if (field && errorEl) {
-      field.style.borderColor = "";
-      errorEl.classList.remove("show");
-    }
-  }
-
-  // Validate single field
-  function validateField(fieldName) {
-    const field = form.querySelector(`[name="${fieldName}"]`);
-    if (!field) return true;
-
-    const value = field.value;
-    const validator = validators[fieldName];
-
-    if (validator) {
-      const error = validator(value);
-      if (error) {
-        showFieldError(fieldName, error);
-        return false;
-      } else {
-        clearFieldError(fieldName);
-        return true;
-      }
-    }
-    return true;
-  }
-
-  // Validate all fields
-  function validateForm() {
-    let isValid = true;
-    Object.keys(validators).forEach((fieldName) => {
-      if (!validateField(fieldName)) {
-        isValid = false;
-      }
-    });
-    return isValid;
-  }
-
-  // Real-time validation
-  Object.keys(validators).forEach((fieldName) => {
-    const field = form.querySelector(`[name="${fieldName}"]`);
-    if (field) {
-      field.addEventListener("blur", () => validateField(fieldName));
-      field.addEventListener("input", () => {
-        if (
-          form
-            .querySelector(`[data-for="${fieldName}"]`)
-            .classList.contains("show")
-        ) {
-          validateField(fieldName);
-        }
-      });
-    }
-  });
-
-  // Form submission
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      statusEl.className = "form-status error";
-      statusEl.textContent = "Please fix the errors above";
-      statusEl.style.opacity = "1";
-      return;
-    }
-
-    // Show loading state
-    submitBtn.textContent = "Sending...";
-    submitBtn.disabled = true;
-
-    try {
-      const formData = new FormData(form);
-      const name = formData.get("name") || "";
-      const email = formData.get("email") || "";
-      const phone = formData.get("phone") || "";
-      const subject = formData.get("subject") || "Contact Form Submission";
-      const message = formData.get("message") || "";
-
-      const mailSubject = encodeURIComponent(`${subject} - ${name}`);
-      const mailBody = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`
-      );
-      const mailto = `mailto:info@curves.agency?subject=${mailSubject}&body=${mailBody}`;
-
-      window.location.href = mailto;
-
-      statusEl.className = "form-status success";
-      statusEl.textContent = "Opening your email client to send the message...";
-      statusEl.style.opacity = "1";
-
-      form.reset();
-      Object.keys(validators).forEach((fieldName) =>
-        clearFieldError(fieldName)
-      );
-    } catch (error) {
-      // Error state
-      statusEl.className = "form-status error";
-      statusEl.textContent = "Failed to send message. Please try again.";
-      statusEl.style.opacity = "1";
-    } finally {
-      // Reset button
-      submitBtn.textContent = "Send message";
-      submitBtn.disabled = false;
-
-      // Hide status after 5 seconds
-      setTimeout(() => {
-        statusEl.style.opacity = "0";
-      }, 5000);
     }
   });
 
