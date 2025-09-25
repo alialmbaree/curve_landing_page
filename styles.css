@@ -119,12 +119,25 @@ body {
 }
 
 .logo {
-  font-size: 1.1rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--text-primary);
-  text-decoration: none;
   z-index: 1001;
   flex-shrink: 0;
+}
+
+/* Logo image styling */
+.logo {
+  margin: 0;
+  line-height: 0;
+}
+
+.logo picture {
+  display: block;
+}
+
+.logo img {
+  display: block;
+  height: 28px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -1057,6 +1070,7 @@ body {
   position: relative;
   z-index: 2;
   margin: var(--spacing-xl) 0;
+  padding: var(--spacing-lg) var(--spacing-xl);
 }
 
 .carousel-track {
@@ -1215,8 +1229,9 @@ body {
 }
 
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: var(--spacing-xl);
   max-width: 1200px;
   margin: 0 auto;
@@ -1854,6 +1869,9 @@ body {
   .logo {
     font-size: 0.9rem;
   }
+  .logo img {
+    height: 22px;
+  }
 
   .hero {
     padding: var(--spacing-md) var(--spacing-xs);
@@ -1918,6 +1936,9 @@ body {
   .logo {
     font-size: 1rem;
     flex-shrink: 0;
+  }
+  .logo img {
+    height: 24px;
   }
 
   .nav-links {
@@ -2104,18 +2125,19 @@ body {
   }
 
   .team-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: var(--spacing-md);
   }
 
   .member-card {
-    height: 280px;
+    height: 20rem;
+    width: 20rem;
     padding: var(--spacing-md);
   }
 
   .member-image {
-    width: 60px;
-    height: 60px;
+    width: 6rem;
+    height: 6rem;
   }
 
   .member-name {
@@ -2261,6 +2283,9 @@ body {
   .logo {
     font-size: 1.3rem;
   }
+  .logo img {
+    height: 30px;
+  }
 
   .nav-links {
     display: flex !important;
@@ -2404,6 +2429,9 @@ body {
   .logo {
     font-size: 1.4rem;
   }
+  .logo img {
+    height: 34px;
+  }
 
   .nav-links {
     gap: var(--spacing-xl);
@@ -2469,7 +2497,8 @@ body {
   }
 
   .member-card {
-    height: 400px;
+    height: 25rem;
+    width: 20rem;
     padding: var(--spacing-xl);
   }
 
@@ -2498,6 +2527,9 @@ body {
 
   .logo {
     font-size: 1.5rem;
+  }
+  .logo img {
+    height: 5rem;
   }
 
   .nav-links {
