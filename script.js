@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initParallaxEffects();
   initHeroAnimations();
   initServiceCardAnimations();
-  initCompanyCarousel();
   initTeamMemberAnimations();
   initContactForm();
   initSocialMediaInteractions();
@@ -62,7 +61,7 @@ function initScrollAnimations() {
     { selector: ".services-content", animation: "fade-in" },
     { selector: ".service-card", animation: "scale-in" },
     { selector: ".companies-content", animation: "fade-in" },
-    { selector: ".company-item", animation: "scale-in" },
+    { selector: ".company-card", animation: "scale-in" },
     { selector: ".team-content", animation: "fade-in" },
     { selector: ".member-card", animation: "scale-in" },
     { selector: ".contact-content", animation: "fade-in" },
@@ -261,116 +260,6 @@ function initTypingAnimation() {
   setTimeout(typeWriter, 1000);
 }
 
-// Company carousel interactions and animations
-function initCompanyCarousel() {
-  const carouselContainer = document.querySelector(".carousel-container");
-  const carouselTrack = document.querySelector(".carousel-track");
-  const companyItems = document.querySelectorAll(".company-item");
-
-  // Pause animation on hover
-  carouselContainer.addEventListener("mouseenter", function () {
-    carouselTrack.style.animationPlayState = "paused";
-  });
-
-  carouselContainer.addEventListener("mouseleave", function () {
-    carouselTrack.style.animationPlayState = "running";
-  });
-
-  // Enhanced hover effects for individual items
-  companyItems.forEach((item, index) => {
-    // Staggered animation delay for entrance
-    item.style.animationDelay = `${index * 0.1}s`;
-
-    // Enhanced hover effects
-    item.addEventListener("mouseenter", function () {
-      this.style.transform = "translateY(-8px) scale(1.05)";
-      this.style.boxShadow = "0 20px 40px rgba(0, 0, 0, 0.3)";
-      this.style.zIndex = "10";
-
-      // Animate the company logo
-      const logo = this.querySelector(".company-logo");
-      if (logo) {
-        logo.style.transform = "scale(1.2) rotate(10deg)";
-        logo.style.background = "rgba(255, 255, 255, 0.2)";
-        logo.style.boxShadow = "0 10px 30px rgba(255, 255, 255, 0.2)";
-      }
-
-      // Animate the company name
-      const name = this.querySelector(".company-name");
-      if (name) {
-        name.style.transform = "translateY(-3px)";
-        name.style.color = "var(--text-secondary)";
-      }
-    });
-
-    item.addEventListener("mouseleave", function () {
-      this.style.transform = "translateY(0) scale(1)";
-      this.style.boxShadow = "";
-      this.style.zIndex = "";
-
-      const logo = this.querySelector(".company-logo");
-      if (logo) {
-        logo.style.transform = "";
-        logo.style.background = "";
-        logo.style.boxShadow = "";
-      }
-
-      const name = this.querySelector(".company-name");
-      if (name) {
-        name.style.transform = "";
-        name.style.color = "";
-      }
-    });
-
-    // Click animation with ripple effect
-    item.addEventListener("click", function (e) {
-      // Create ripple effect
-      const ripple = document.createElement("span");
-      const rect = this.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      const x = e.clientX - rect.left - size / 2;
-      const y = e.clientY - rect.top - size / 2;
-
-      ripple.style.width = ripple.style.height = size + "px";
-      ripple.style.left = x + "px";
-      ripple.style.top = y + "px";
-      ripple.classList.add("company-ripple");
-
-      this.appendChild(ripple);
-
-      setTimeout(() => {
-        ripple.remove();
-      }, 600);
-
-      // Scale animation
-      this.style.transform = "scale(0.95)";
-      setTimeout(() => {
-        this.style.transform = "";
-      }, 150);
-    });
-  });
-
-  // Add touch/swipe support for mobile
-  let startX = 0;
-  let isDragging = false;
-
-  carouselContainer.addEventListener("touchstart", function (e) {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    carouselTrack.style.animationPlayState = "paused";
-  });
-
-  carouselContainer.addEventListener("touchmove", function (e) {
-    if (!isDragging) return;
-    e.preventDefault();
-  });
-
-  carouselContainer.addEventListener("touchend", function (e) {
-    if (!isDragging) return;
-    isDragging = false;
-    carouselTrack.style.animationPlayState = "running";
-  });
-}
 
 // Team member 3D interactions and animations
 function initTeamMemberAnimations() {
